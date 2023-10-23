@@ -1,9 +1,42 @@
+"use client";
 import Link from 'next/link';
-import React from 'react';
+import React, { useRef } from 'react';
+import { useRouter } from 'next/navigation';
+import { showErrorToast } from '@/components/Toast';
 
 const AuthPage = () => {
+    const router = useRouter();
+    const emailRef = useRef<HTMLInputElement | null>(null);
+    const passwordRef = useRef<HTMLInputElement | null>(null);
 
 
+    const handleFormSubmit = async (e: SubmitEvent) => {
+        e.preventDefault();
+        const formData = {
+            email: emailRef.current!.value,
+            password: passwordRef.current!.value
+        }
+        try {
+            const response = await fetch('http://localhost:8080/user/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+            if (response.status === 200) {
+                const data = await response.json();
+                console.log(data);
+                router.push('/dashboard');
+            } else if (response.status === 400) {
+                showErrorToast("Please enter valid Credentials");
+            } else if (response.status === 404) {
+                showErrorToast("User does not exist, please sign up first.")
+            }
+        } catch (error) {
+            showErrorToast('An error occurred during login');
+        }
+    };
     return (
         <section className="bg-gray-50">
             <div className="flex flex-col items-center justify-start mt-12 px-6 py-8 mx-auto md:h-screen lg:py-0">
@@ -11,16 +44,16 @@ const AuthPage = () => {
                 <div className="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
                     <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
                         <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
-                            {'Sign up for an account'}
+                            {'Sign in'}
                         </h1>
-                        <form className="space-y-4 md:space-y-6" action="#">
+                        <form onSubmit={() => handleFormSubmit(event as SubmitEvent)} className="space-y-4 md:space-y-6">
                             <div>
                                 <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">Your email</label>
-                                <input type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 " placeholder="name@company.com" />
+                                <input ref={emailRef} type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 " placeholder="name@company.com" />
                             </div>
                             <div>
                                 <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900">Password</label>
-                                <input type="password" name="password" id="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" />
+                                <input ref={passwordRef} type="password" name="password" id="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" />
                             </div>
                             <div className="flex items-center justify-between">
                                 <div className="flex items-start">
