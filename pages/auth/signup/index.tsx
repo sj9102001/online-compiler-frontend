@@ -3,7 +3,7 @@ import { showErrorToast, showSuccessToast } from '@/components/Toast';
 import Link from 'next/link';
 import React, { useRef } from 'react';
 import { useRouter } from 'next/navigation';
-const AuthPage = () => {
+const SignupPage = () => {
     const router = useRouter();
     const usernameRef = useRef<HTMLInputElement | null>(null);
     const emailRef = useRef<HTMLInputElement | null>(null);
@@ -106,4 +106,4 @@ const AuthPage = () => {
 };
 
 
-export default AuthPage;
+export default SignupPage;

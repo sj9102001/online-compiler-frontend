@@ -2,9 +2,15 @@
 import Link from 'next/link';
 import React, { useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { showErrorToast } from '@/components/Toast';
+import { showErrorToast, showSuccessToast } from '@/components/Toast';
 
-const AuthPage = () => {
+type LoginPageProps = {
+    showError: boolean;
+    errorMessage: string;
+}
+
+const LoginPage = (props: LoginPageProps) => {
+
     const router = useRouter();
     const emailRef = useRef<HTMLInputElement | null>(null);
     const passwordRef = useRef<HTMLInputElement | null>(null);
@@ -23,15 +29,14 @@ const AuthPage = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(formData),
+                credentials: 'include'
             });
+            const data = await response.json();
             if (response.status === 200) {
-                const data = await response.json();
-                console.log(data);
+                localStorage.setItem("jwtToken", data.token);
                 router.push('/dashboard');
-            } else if (response.status === 400) {
-                showErrorToast("Please enter valid Credentials");
-            } else if (response.status === 404) {
-                showErrorToast("User does not exist, please sign up first.")
+            } else {
+                showErrorToast(data.message);
             }
         } catch (error) {
             showErrorToast('An error occurred during login');
@@ -84,4 +89,5 @@ const AuthPage = () => {
 };
 
 
-export default AuthPage;
+
+export default LoginPage;
