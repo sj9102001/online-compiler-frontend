@@ -3,23 +3,34 @@
 @tailwind utilities;
 
 .btn {
-    @apply rounded-md bg-primary-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-primary-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600;
+  @apply rounded-md bg-primary-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-primary-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600;
 }
 .split {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 .gutter {
-    background-color: #eee;
-    background-repeat: no-repeat;
-    background-position: 50%;
+  background-color: rgb(17, 24, 39);
+  background-repeat: no-repeat;
+  background-position: 50%;
+}
+.gutter.gutter-horizontal:hover {
+  background-color: rgb(32, 96, 245);
+  transition: 0.2s ease-in-out;
+}
+.gutter.gutter-horizontal:active {
+  background-color: rgb(32, 96, 245);
 }
 
 .gutter.gutter-horizontal {
-    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==');
-    cursor: col-resize;
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==");
+
+  cursor: col-resize;
 }
 
-.icon-button{
-    @apply hover:bg-[rgb(58,59,59)] p-1 rounded-sm transition;
+.icon-button {
+  @apply hover:bg-[rgb(58,59,59)] p-1 rounded-sm transition;
+}
+.file-list {
+  @apply bg-[rgb(17,24,39)] min-w-max overflow-hidden px-2 my-[0.2rem] mx-2 rounded-md hover:bg-[rgb(58,59,59)] transition flex flex-row justify-between;
 }
