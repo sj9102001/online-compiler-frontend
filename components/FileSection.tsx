@@ -1,6 +1,6 @@
 import React from "react";
 import {AiOutlineFileAdd} from 'react-icons/ai';
-
+import {VscRefresh} from 'react-icons/vsc';
 
 
 const FileSection = () => {
@@ -8,8 +8,8 @@ const FileSection = () => {
         <div className="flex justify-between">
             <h3>Explorer</h3>
             <div>
-            <button className="hover:bg-[rgb(58,59,59)] p-1 rounded-sm transition"><AiOutlineFileAdd/></button>
-            <button></button>
+            <button className="icon-button"><AiOutlineFileAdd/></button>
+            <button className="icon-button"><VscRefresh/></button>
             </div>
         </div>
     </div>
