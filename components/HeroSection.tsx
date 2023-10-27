@@ -6,10 +6,10 @@ const HeroSection = () => {
       <div className="relative isolate px-6 pt-14 lg:px-8">
         <div className="mx-auto max-w-2xl ">
           <div className="text-center">
-            <h1 className="text-4xl font-bold tracking-tight text-gray-900 dark:text-gray-200 sm:text-6xl">
+            <h1 className="text-4xl font-bold tracking-tigh text-gray-200 sm:text-6xl">
               All in one solution to enhance your online coding experience.
             </h1>
-            <p className="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-100">
+            <p className="mt-6 text-lg leading-8 text-gray-100">
               versatile app designed to empower you to create, manage, and
               access your files and code from anywhere, anytime, and on any
               device. Whether you&apos;re a developer, a student, or a
@@ -25,7 +25,7 @@ const HeroSection = () => {
               </a>
               <a
                 href="#"
-                className="text-sm font-semibold leading-6 text-gray-900 dark:text-white"
+                className="text-sm font-semibold leading-6 text-white"
               >
                 Learn more <span aria-hidden="true">→</span>
               </a>
@@ -33,7 +33,7 @@ const HeroSection = () => {
           </div>
         </div>
         <div
-          className="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"
+          className="absolute  inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-35rem)]"
           aria-hidden="true"
         >
           <div className="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-[#384d5f] to-[#9089fc] opacity-30 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]"></div>
