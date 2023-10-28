@@ -1,14 +1,29 @@
 "use client";
 import Link from "next/link";
 import React, { useState } from "react";
+import { useRouter } from "next/router";
+import { showErrorToast } from "./Toast";
 
 const Header = () => {
+  const router = useRouter();
   const [showSidebar, setShowSidebar] = useState(false);
   function toggleSidebar() {
     setShowSidebar((prevState) => {
-      return !showSidebar;
+      return !prevState;
     });
   }
+
+  async function handleLogout() {
+    const logoutResponse = await fetch('http://localhost:8080/user/logout', {
+      credentials: "include"
+    });
+    if (logoutResponse.status === 200) {
+      router.replace('/');
+    } else {
+      showErrorToast('Error logging you out!');
+    }
+  }
+
   return (
     <header className=" bg-[rgb(17,24,39)]">
       <nav
@@ -59,14 +74,19 @@ const Header = () => {
             Company
           </Link>
         </div>
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+        {router.pathname === "/dashboard" ? <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+          <button onClick={handleLogout} className="btn">
+            Logout
+          </button>
+        </div> : <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           <Link href="/auth/login" className="btn">
             Login
           </Link>
-        </div>
+        </div>}
       </nav>
       {showSidebar && (
-        <div className="lg:hidden" role="dialog" aria-modal="true">
+        <div
+          className="lg:hidden" role="dialog" aria-modal="true">
           <div className="fixed inset-0 z-10"></div>
           <div className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-[rgb(17,24,39)] px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
             <div className="flex items-center justify-between">

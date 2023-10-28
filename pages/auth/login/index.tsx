@@ -31,8 +31,7 @@ const LoginPage = (props: LoginPageProps) => {
       });
       const data = await response.json();
       if (response.status === 200) {
-        localStorage.setItem("jwtToken", data.token);
-        router.push("/dashboard");
+        router.replace("/dashboard");
       } else {
         showErrorToast(data.message);
       }
