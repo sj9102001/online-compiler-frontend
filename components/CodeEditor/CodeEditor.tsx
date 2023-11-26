@@ -22,7 +22,7 @@ const CodeEditor = () => {
             <div className="absolute bg-transparent bottom-0 -left-6 h-2 w-[24px] rounded-br-full  shadow-[7px_0px_0px_0px_rgba(29,28,28,1)]"></div>
 
             <div className="flex flex-row justify-between gap-10">
-              <h3>file.js</h3>
+              <h3>File1.js</h3>
               <button className="hover:bg-[rgb(58,59,59)] px-[0px] my-1 rounded-sm transition">
                 <VscClose />
               </button>

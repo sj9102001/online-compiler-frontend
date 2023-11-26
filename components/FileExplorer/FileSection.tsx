@@ -1,6 +1,6 @@
 import React from "react";
+import { AiOutlineFileAdd, AiOutlineDelete } from "react-icons/ai";
 import { VscRefresh } from "react-icons/vsc";
-import Modal from "./Modal";
 
 const FileSection = () => {
   return (
@@ -9,13 +9,19 @@ const FileSection = () => {
         <h3>EXPLORER</h3>
         <div className="space-x-1">
           <button className="icon-button">
+            <AiOutlineFileAdd />
+          </button>
+          <button className="icon-button">
             <VscRefresh />
           </button>
         </div>
       </div>
-      <ul className="mt-6 ml-2">
-        {/* <li className="file-list">file.js</li> */}
-        <Modal />
+      <ul className="mt-5 ">
+        <li className="file-list">1.txt</li>
+        <li className="file-list">2.txt</li>
+        <li className="file-list">3.txt</li>
+        <li className="file-list">4.txt</li>
+        <li className="file-list">5.txt</li>
       </ul>
     </div>
   );
