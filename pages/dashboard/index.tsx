@@ -6,10 +6,10 @@ import FileSection from "@/components/FileExplorer/FileSection";
 
 type DashboardProps = {
   user: {
-    username: string,
-    email: string,
-    userId: string
-  } | null
+    username: string;
+    email: string;
+    userId: string;
+  } | null;
 };
 
 const Dashboard = (props: DashboardProps) => {
@@ -33,26 +33,26 @@ const Dashboard = (props: DashboardProps) => {
 export async function getServerSideProps(context: any) {
   const req = context.req;
   const cookieHeader = req.headers.cookie;
-  const authResponse = await fetch('http://localhost:8080/user/verifyAuth', {
+  const authResponse = await fetch("http://localhost:8080/user/verifyAuth", {
     headers: {
-      'Cookie': cookieHeader
-    }
+      Cookie: cookieHeader,
+    },
   });
 
   if (authResponse.status === 401) {
     return {
       redirect: {
-        destination: '/auth/login',
-        permanent: false
-      }
-    }
-  }
-  return {
-    props: {
-      user: null
-    }
+        destination: "/auth/login",
+        permanent: false,
+      },
+    };
   }
 
+  return {
+    props: {
+      user: null,
+    },
+  };
 }
 
 export default Dashboard;
