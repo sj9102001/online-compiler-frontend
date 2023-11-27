@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { showErrorToast } from "@/components/Toast";
 import Split from "react-split";
 import CodeEditor from "@/components/CodeEditor/CodeEditor";
 import FileSection from "@/components/FileExplorer/FileSection";
-
+import Modal from "@/components/FileExplorer/Modal";
 type DashboardProps = {
   user: {
     username: string;
@@ -13,6 +13,15 @@ type DashboardProps = {
 };
 
 const Dashboard = (props: DashboardProps) => {
+  const [files, setFiles] = useState<{ name: string; type: string }[]>([]);
+
+  const addFile = (fileName: string, fileType: string) => {
+    setFiles([...files, { name: fileName, type: fileType }]);
+  };
+
+  const deleteFile = (fileName: string) => {
+    setFiles(files.filter((file) => file.name !== fileName));
+  };
   return (
     <Split
       className="split h-[calc(100vh-88px)]"
@@ -21,7 +30,12 @@ const Dashboard = (props: DashboardProps) => {
       sizes={[15, 85]}
     >
       <div className="bg-[rgb(29,28,28)] text-[#fff] rounded-tr-lg">
-        <FileSection />
+        <FileSection
+          files={files}
+          setFiles={setFiles}
+          addFile={addFile}
+          deleteFile={deleteFile}
+        />
       </div>
       <div className="bg-[rgb(29,28,28)] rounded-tl-lg ">
         <CodeEditor />
