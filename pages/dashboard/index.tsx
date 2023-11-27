@@ -1,18 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import { showErrorToast } from "@/components/Toast";
 import Split from "react-split";
 import CodeEditor from "@/components/CodeEditor/CodeEditor";
 import FileSection from "@/components/FileExplorer/FileSection";
-
+import Modal from "@/components/FileExplorer/Modal";
 type DashboardProps = {
   user: {
-    username: string,
-    email: string,
-    userId: string
-  } | null
+    username: string;
+    email: string;
+    userId: string;
+  } | null;
 };
 
 const Dashboard = (props: DashboardProps) => {
+  const [files, setFiles] = useState<{ name: string; type: string }[]>([]);
+
+  const addFile = (fileName: string, fileType: string) => {
+    setFiles([...files, { name: fileName, type: fileType }]);
+  };
+
+  const deleteFile = (fileName: string) => {
+    setFiles(files.filter((file) => file.name !== fileName));
+  };
   return (
     <Split
       className="split h-[calc(100vh-88px)]"
@@ -21,7 +30,12 @@ const Dashboard = (props: DashboardProps) => {
       sizes={[15, 85]}
     >
       <div className="bg-[rgb(29,28,28)] text-[#fff] rounded-tr-lg">
-        <FileSection />
+        <FileSection
+          files={files}
+          setFiles={setFiles}
+          addFile={addFile}
+          deleteFile={deleteFile}
+        />
       </div>
       <div className="bg-[rgb(29,28,28)] rounded-tl-lg ">
         <CodeEditor />
@@ -33,26 +47,26 @@ const Dashboard = (props: DashboardProps) => {
 export async function getServerSideProps(context: any) {
   const req = context.req;
   const cookieHeader = req.headers.cookie;
-  const authResponse = await fetch('http://localhost:8080/user/verifyAuth', {
+  const authResponse = await fetch("http://localhost:8080/user/verifyAuth", {
     headers: {
-      'Cookie': cookieHeader
-    }
+      Cookie: cookieHeader,
+    },
   });
 
   if (authResponse.status === 401) {
     return {
       redirect: {
-        destination: '/auth/login',
-        permanent: false
-      }
-    }
-  }
-  return {
-    props: {
-      user: null
-    }
+        destination: "/auth/login",
+        permanent: false,
+      },
+    };
   }
 
+  return {
+    props: {
+      user: null,
+    },
+  };
 }
 
 export default Dashboard;
