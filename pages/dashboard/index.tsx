@@ -3,13 +3,19 @@ import { showErrorToast } from "@/components/Toast";
 import Split from "react-split";
 import CodeEditor from "@/components/CodeEditor/CodeEditor";
 import FileSection from "@/components/FileExplorer/FileSection";
-import Modal from "@/components/FileExplorer/Modal";
 import NotSelected from "@/components/CodeEditor/NotSelected";
 
 type File = {
   filename: string;
   runtime: string;
   fileId: string;
+}
+
+type SelectedFile = {
+  filename: string;
+  runtime: string;
+  fileId: string;
+  content: string;
 }
 
 type DashboardProps = {
@@ -26,7 +32,28 @@ const Dashboard = (props: DashboardProps) => {
   const addFile = (fileName: string, fileType: string, fileId: string) => {
     setFiles([...files, { filename: fileName, runtime: fileType, fileId: fileId }]);
   };
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [selectedFile, setSelectedFile] = useState<SelectedFile | null>(null);
+
+  const selectFileHandler = async (codeId: string) => {
+    try {
+      const selectFileResponse = await fetch(`http://localhost:8080/file/code/${codeId}`);
+      const selectFileData = await selectFileResponse.json();
+      setSelectedFile({
+        fileId: selectFileData.id,
+        filename: selectFileData.filename,
+        runtime: selectFileData.runtime,
+        content: selectFileData.content
+      });
+      console.log(selectFileData);
+    } catch (error: any) {
+      showErrorToast(error.message);
+    }
+  }
+
+  const clearSelectedFileHandler = () => {
+    setSelectedFile(null);
+  }
+
   const deleteFile = async (fileId: string) => {
     try {
       const deleteResponse = await fetch(`http://localhost:8080/file/code/${fileId}`, {
@@ -38,9 +65,13 @@ const Dashboard = (props: DashboardProps) => {
           userId: props.user.userId
         })
       });
+      if (!deleteResponse.ok) {
+        throw new Error('Failed to delete file');
+      }
+
       setFiles(files.filter((file) => file.fileId !== fileId));
-    } catch {
-      showErrorToast("Error deleting file");
+    } catch (error: any) {
+      showErrorToast(error.message);
     }
   };
   return (
@@ -52,6 +83,7 @@ const Dashboard = (props: DashboardProps) => {
     >
       <div className="bg-[rgb(29,28,28)] text-[#fff] rounded-tr-lg">
         <FileSection
+          selectFile={selectFileHandler}
           files={files}
           setFiles={setFiles}
           addFile={addFile}
@@ -60,7 +92,7 @@ const Dashboard = (props: DashboardProps) => {
         />
       </div>
       <div className="bg-[rgb(29,28,28)] rounded-tl-lg ">
-        {selectedFile === null ? <NotSelected /> : <CodeEditor />}
+        {selectedFile === null ? <NotSelected /> : <CodeEditor clearSelectedFile={clearSelectedFileHandler} file={selectedFile} />}
       </div>
     </Split>
   );

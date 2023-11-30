@@ -1,17 +1,31 @@
 import React from "react";
-import Split from "react-split";
 import ReactCodeMirror from "@uiw/react-codemirror";
 import { vscodeDark } from "@uiw/codemirror-theme-vscode";
 import { javascript } from "@codemirror/lang-javascript";
+import { cpp } from "@codemirror/lang-cpp";
+import { python } from "@codemirror/lang-python";
+
 import {
   VscPlay,
   VscScreenFull,
-  VscScreenNormal,
   VscClose,
 } from "react-icons/vsc";
+
+
+
+interface CodeEditorProps {
+  file: {
+    filename: string;
+    runtime: string;
+    fileId: string;
+    content: string;
+  };
+  clearSelectedFile: () => void;
+}
+
 import { AiOutlineDownload, AiOutlineShareAlt } from "react-icons/ai";
 
-const CodeEditor = () => {
+const CodeEditor: React.FC<CodeEditorProps> = ({ file, clearSelectedFile }) => {
   return (
     <div className="w-full overflow-auto h-full  text-white ">
       <div className="flex flex-row rounded-t-lg justify-between px-2 pt-2 max-h-11 bg-[rgb(31,41,55)] mb-1">
@@ -22,8 +36,8 @@ const CodeEditor = () => {
             <div className="absolute bg-transparent bottom-0 -left-6 h-2 w-[24px] rounded-br-full  shadow-[7px_0px_0px_0px_rgba(29,28,28,1)]"></div>
 
             <div className="flex flex-row justify-between gap-10">
-              <h3>file.js</h3>
-              <button className="hover:bg-[rgb(58,59,59)] px-[0px] my-1 rounded-sm transition">
+              <h3>{file.filename}</h3>
+              <button onClick={clearSelectedFile} className="hover:bg-[rgb(58,59,59)] px-[0px] my-1 rounded-sm transition">
                 <VscClose />
               </button>
             </div>
@@ -50,9 +64,9 @@ const CodeEditor = () => {
       </div>
       <div className="p-2">
         <ReactCodeMirror
-          value="console.log('hello world!')"
+          value={file.content}
           theme={vscodeDark}
-          extensions={[javascript()]}
+          extensions={[file.runtime === "JS" ? javascript() : file.runtime === "PY" ? python() : cpp()]}
           style={{ fontSize: 14 }}
         />
       </div>

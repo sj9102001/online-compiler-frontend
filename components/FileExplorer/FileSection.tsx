@@ -20,6 +20,7 @@ interface FileSectionProps {
     email: string;
     userId: string;
   };
+  selectFile: (codeId: string) => void;
 }
 
 const FileSection: React.FC<FileSectionProps> = ({
@@ -27,7 +28,8 @@ const FileSection: React.FC<FileSectionProps> = ({
   setFiles,
   addFile,
   deleteFile,
-  user
+  user,
+  selectFile
 }) => {
   const onCloseHandler = () => {
     setShowModal(false);
@@ -61,10 +63,10 @@ const FileSection: React.FC<FileSectionProps> = ({
       <ul className="mt-6 ml-2">
         <ul>
           {files.map((file, index) => (
-            <div key={index}>
+            <div key={index} onClick={() => selectFile(file.fileId)}>
               <li
                 className="bg-gray-700 mb-1  mr-2 rounded-md hover:bg-gray-500 transition"
-                key={index}
+                key={file.fileId}
               >
                 {file.runtime === "CPP" && (
                   <span className="flex flex-row justify-between">
