@@ -4,11 +4,22 @@ import { TbBrandCpp, TbBrandPython } from "react-icons/tb";
 import { FaJava, FaFile } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
 
+type File = {
+  filename: string;
+  runtime: string;
+  fileId: string;
+}
+
 interface FileSectionProps {
-  files: { name: string; type: string }[];
-  setFiles: Dispatch<SetStateAction<{ name: string; type: string }[]>>;
-  addFile: (fileName: string, fileType: string) => void;
-  deleteFile: (fileName: string) => void;
+  files: File[];
+  setFiles: Dispatch<SetStateAction<{ filename: string; runtime: string, fileId: string }[]>>;
+  addFile: (filename: string, runtime: string, fileId: string) => void;
+  deleteFile: (fileId: string) => void;
+  user: {
+    username: string;
+    email: string;
+    userId: string;
+  };
 }
 
 const FileSection: React.FC<FileSectionProps> = ({
@@ -16,12 +27,12 @@ const FileSection: React.FC<FileSectionProps> = ({
   setFiles,
   addFile,
   deleteFile,
+  user
 }) => {
   const onCloseHandler = () => {
     setShowModal(false);
   };
   const [showModal, setShowModal] = useState(false);
-
   return (
     <div className="bg-[rgb(31,41,55)] h-full rounded-tr-lg ">
       <div className="flex justify-between px-2 pt-2 max-h-11  mb-1">
@@ -42,6 +53,7 @@ const FileSection: React.FC<FileSectionProps> = ({
               addFile={addFile}
               deleteFile={deleteFile}
               onClose={onCloseHandler}
+              user={user}
             />
           )}
         </div>
@@ -54,53 +66,53 @@ const FileSection: React.FC<FileSectionProps> = ({
                 className="bg-gray-700 mb-1  mr-2 rounded-md hover:bg-gray-500 transition"
                 key={index}
               >
-                {file.type === "cpp" && (
+                {file.runtime === "CPP" && (
                   <span className="flex flex-row justify-between">
                     <div className="flex flex-row">
                       <TbBrandCpp className="m-1.5 bg-blue-800 rounded-md p-[2px]" />
-                      {file.name}
+                      {file.filename}
                     </div>
                     <div className="hover:opacity-100 opacity-30 pt-1 pr-2">
-                      <button onClick={() => deleteFile(file.name)}>
+                      <button onClick={() => deleteFile(file.fileId)}>
                         <MdDeleteOutline />
                       </button>
                     </div>
                   </span>
                 )}
-                {file.type === "java" && (
+                {file.runtime === "JS" && (
                   <span className="flex flex-row justify-between">
                     <div className="flex flex-row">
                       <FaJava className="m-1.5 bg-orange-600 rounded-md p-[2px]" />
-                      {file.name}
+                      {file.filename}
                     </div>
                     <div className="hover:opacity-100 opacity-30 pt-1 pr-2">
-                      <button onClick={() => deleteFile(file.name)}>
+                      <button onClick={() => deleteFile(file.fileId)}>
                         <MdDeleteOutline />
                       </button>
                     </div>
                   </span>
                 )}
-                {file.type === "python" && (
+                {file.runtime === "PY" && (
                   <span className="flex flex-row justify-between">
                     <div className="flex flex-row">
                       <TbBrandPython className="m-1.5 bg-yellow-600 rounded-md p-[2px]" />
-                      {file.name}
+                      {file.filename}
                     </div>
                     <div className="hover:opacity-100 opacity-30 pt-1 pr-2">
-                      <button onClick={() => deleteFile(file.name)}>
+                      <button onClick={() => deleteFile(file.fileId)}>
                         <MdDeleteOutline />
                       </button>
                     </div>
                   </span>
                 )}
-                {file.type === "file" && (
+                {file.runtime === "file" && (
                   <span className="flex flex-row justify-between">
                     <div className="flex flex-row">
                       <FaFile className="m-1.5 p-[2px]" />
-                      {file.name}
+                      {file.filename}
                     </div>
                     <div className="hover:opacity-100 opacity-30 pt-1 pr-2">
-                      <button onClick={() => deleteFile(file.name)}>
+                      <button onClick={() => deleteFile(file.fileId)}>
                         <MdDeleteOutline />
                       </button>
                     </div>

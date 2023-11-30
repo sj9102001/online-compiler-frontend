@@ -1,13 +1,18 @@
-import { on } from "events";
 import React, { useState, SetStateAction, Dispatch } from "react";
+import { showErrorToast } from "../Toast";
 
 interface ModalProps {
   onClose: () => void;
-  files: { name: string; type: string }[];
-  setFiles: Dispatch<SetStateAction<{ name: string; type: string }[]>>;
-  addFile: (fileName: string, fileType: string) => void;
-  deleteFile: (fileName: string) => void;
+  files: { filename: string; runtime: string, fileId: string }[];
+  setFiles: Dispatch<SetStateAction<{ filename: string; runtime: string, fileId: string }[]>>;
+  addFile: (filename: string, runtime: string, fileId: string) => void;
+  deleteFile: (fileId: string) => void;
   open: boolean;
+  user: {
+    username: string,
+    email: string,
+    userId: string,
+  }
 }
 const Modal: React.FC<ModalProps> = ({
   onClose,
@@ -16,6 +21,7 @@ const Modal: React.FC<ModalProps> = ({
   setFiles,
   addFile,
   deleteFile,
+  user
 }) => {
   const [fileName, setFileName] = useState("");
 
@@ -26,15 +32,45 @@ const Modal: React.FC<ModalProps> = ({
     const extension = fileName.split(".").pop()?.toLowerCase();
     switch (extension) {
       case "cpp":
-        return "cpp";
-      case "java":
-        return "java";
+        return "CPP";
+      case "js":
+        return "JS";
       case "py":
-        return "python";
+        return "PY";
       default:
         return "file";
     }
   };
+
+  const addFileHandler = async () => {
+    try {
+      if (fileName) {
+
+        const fileRuntime = getFileType(fileName);
+        const addFileResponse = await fetch("http://localhost:8080/file", {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            userId: user.userId,
+            filename: fileName,
+            runtime: getFileType(fileName)
+          })
+        });
+        const addFileData = await addFileResponse.json();
+        console.log(addFileData);
+        addFile(fileName, fileRuntime, addFileData.fileId);
+        setFileName("");
+        onClose();
+      } else {
+        showErrorToast("Filename must not be empty");
+      }
+    } catch {
+      showErrorToast("Error creating a new file");
+    }
+
+  }
 
   return (
     <div className="file-section">
@@ -59,13 +95,7 @@ const Modal: React.FC<ModalProps> = ({
           </p>
           <div className="flex flex:row  justify-between">
             <button
-              onClick={() => {
-                if (fileName) {
-                  addFile(fileName, getFileType(fileName));
-                  setFileName("");
-                  onClose();
-                }
-              }}
+              onClick={addFileHandler}
               className="bg-primary-500  hover:bg-primary-700 text-white font-bold py-2 px-4 rounded"
             >
               Create
