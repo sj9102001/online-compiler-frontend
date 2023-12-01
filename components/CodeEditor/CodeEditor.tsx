@@ -5,13 +5,7 @@ import { javascript } from "@codemirror/lang-javascript";
 import { cpp } from "@codemirror/lang-cpp";
 import { python } from "@codemirror/lang-python";
 
-import {
-  VscPlay,
-  VscScreenFull,
-  VscClose,
-} from "react-icons/vsc";
-
-
+import { VscPlay, VscScreenFull, VscClose } from "react-icons/vsc";
 
 interface CodeEditorProps {
   file: {
@@ -37,7 +31,10 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ file, clearSelectedFile }) => {
 
             <div className="flex flex-row justify-between gap-10">
               <h3>{file.filename}</h3>
-              <button onClick={clearSelectedFile} className="hover:bg-[rgb(58,59,59)] px-[0px] my-1 rounded-sm transition">
+              <button
+                onClick={clearSelectedFile}
+                className="hover:bg-[rgb(58,59,59)] px-[0px] my-1 rounded-sm transition"
+              >
                 <VscClose />
               </button>
             </div>
@@ -66,7 +63,13 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ file, clearSelectedFile }) => {
         <ReactCodeMirror
           value={file.content}
           theme={vscodeDark}
-          extensions={[file.runtime === "JS" ? javascript() : file.runtime === "PY" ? python() : cpp()]}
+          extensions={[
+            file.runtime === "JS"
+              ? javascript()
+              : file.runtime === "PY"
+              ? python()
+              : cpp(),
+          ]}
           style={{ fontSize: 14 }}
         />
       </div>

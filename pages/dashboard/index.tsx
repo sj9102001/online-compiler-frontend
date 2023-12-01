@@ -9,14 +9,14 @@ type File = {
   filename: string;
   runtime: string;
   fileId: string;
-}
+};
 
 type SelectedFile = {
   filename: string;
   runtime: string;
   fileId: string;
   content: string;
-}
+};
 
 type DashboardProps = {
   user: {
@@ -28,45 +28,55 @@ type DashboardProps = {
 };
 
 const Dashboard = (props: DashboardProps) => {
-  const [files, setFiles] = useState<{ filename: string; runtime: string, fileId: string }[]>(props.files);
+  const [files, setFiles] = useState<
+    { filename: string; runtime: string; fileId: string }[]
+  >(props.files);
   const addFile = (fileName: string, fileType: string, fileId: string) => {
-    setFiles([...files, { filename: fileName, runtime: fileType, fileId: fileId }]);
+    setFiles([
+      ...files,
+      { filename: fileName, runtime: fileType, fileId: fileId },
+    ]);
   };
   const [selectedFile, setSelectedFile] = useState<SelectedFile | null>(null);
 
   const selectFileHandler = async (codeId: string) => {
     try {
-      const selectFileResponse = await fetch(`http://localhost:8080/file/code/${codeId}`);
+      const selectFileResponse = await fetch(
+        `http://localhost:8080/file/code/${codeId}`
+      );
       const selectFileData = await selectFileResponse.json();
       setSelectedFile({
         fileId: selectFileData.id,
         filename: selectFileData.filename,
         runtime: selectFileData.runtime,
-        content: selectFileData.content
+        content: selectFileData.content,
       });
       console.log(selectFileData);
     } catch (error: any) {
       showErrorToast(error.message);
     }
-  }
+  };
 
   const clearSelectedFileHandler = () => {
     setSelectedFile(null);
-  }
+  };
 
   const deleteFile = async (fileId: string) => {
     try {
-      const deleteResponse = await fetch(`http://localhost:8080/file/code/${fileId}`, {
-        method: "DELETE",
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          userId: props.user.userId
-        })
-      });
+      const deleteResponse = await fetch(
+        `http://localhost:8080/file/code/${fileId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userId: props.user.userId,
+          }),
+        }
+      );
       if (!deleteResponse.ok) {
-        throw new Error('Failed to delete file');
+        throw new Error("Failed to delete file");
       }
 
       setFiles(files.filter((file) => file.fileId !== fileId));
@@ -91,8 +101,15 @@ const Dashboard = (props: DashboardProps) => {
           user={props.user}
         />
       </div>
-      <div className="bg-[rgb(29,28,28)] rounded-tl-lg ">
-        {selectedFile === null ? <NotSelected /> : <CodeEditor clearSelectedFile={clearSelectedFileHandler} file={selectedFile} />}
+      <div className="bg-[rgb(29,28,28)] rounded-tl-lg overflow-hidden">
+        {selectedFile === null ? (
+          <NotSelected />
+        ) : (
+          <CodeEditor
+            clearSelectedFile={clearSelectedFileHandler}
+            file={selectedFile}
+          />
+        )}
       </div>
     </Split>
   );
@@ -129,9 +146,9 @@ export async function getServerSideProps(context: any) {
       user: {
         username: authData.user.username,
         email: authData.user.email,
-        userId: authData.user.userId
+        userId: authData.user.userId,
       },
-      files: filesData.files
+      files: filesData.files,
     },
   };
 }

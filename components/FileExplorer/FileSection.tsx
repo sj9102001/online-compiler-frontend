@@ -8,11 +8,13 @@ type File = {
   filename: string;
   runtime: string;
   fileId: string;
-}
+};
 
 interface FileSectionProps {
   files: File[];
-  setFiles: Dispatch<SetStateAction<{ filename: string; runtime: string, fileId: string }[]>>;
+  setFiles: Dispatch<
+    SetStateAction<{ filename: string; runtime: string; fileId: string }[]>
+  >;
   addFile: (filename: string, runtime: string, fileId: string) => void;
   deleteFile: (fileId: string) => void;
   user: {
@@ -29,14 +31,14 @@ const FileSection: React.FC<FileSectionProps> = ({
   addFile,
   deleteFile,
   user,
-  selectFile
+  selectFile,
 }) => {
   const onCloseHandler = () => {
     setShowModal(false);
   };
   const [showModal, setShowModal] = useState(false);
   return (
-    <div className="bg-[rgb(31,41,55)] h-full rounded-tr-lg ">
+    <div className="bg-[rgb(31,41,55)] h-full rounded-tr-lg overflow-hidden">
       <div className="flex justify-between px-2 pt-2 max-h-11  mb-1">
         <h3>EXPLORER</h3>
         <div>
@@ -71,7 +73,7 @@ const FileSection: React.FC<FileSectionProps> = ({
                 {file.runtime === "CPP" && (
                   <span className="flex flex-row justify-between">
                     <div className="flex flex-row">
-                      <TbBrandCpp className="m-1.5 bg-blue-800 rounded-md p-[2px]" />
+                      <TbBrandCpp className="m-1.5 rounded-md p-[2px]" />
                       {file.filename}
                     </div>
                     <div className="hover:opacity-100 opacity-30 pt-1 pr-2">
@@ -84,7 +86,7 @@ const FileSection: React.FC<FileSectionProps> = ({
                 {file.runtime === "JS" && (
                   <span className="flex flex-row justify-between">
                     <div className="flex flex-row">
-                      <FaJava className="m-1.5 bg-orange-600 rounded-md p-[2px]" />
+                      <FaJava className="m-1.5  rounded-md p-[2px]" />
                       {file.filename}
                     </div>
                     <div className="hover:opacity-100 opacity-30 pt-1 pr-2">
@@ -97,7 +99,7 @@ const FileSection: React.FC<FileSectionProps> = ({
                 {file.runtime === "PY" && (
                   <span className="flex flex-row justify-between">
                     <div className="flex flex-row">
-                      <TbBrandPython className="m-1.5 bg-yellow-600 rounded-md p-[2px]" />
+                      <TbBrandPython className="m-1.5 rounded-md p-[2px]" />
                       {file.filename}
                     </div>
                     <div className="hover:opacity-100 opacity-30 pt-1 pr-2">
