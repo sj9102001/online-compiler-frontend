@@ -1,7 +1,7 @@
 import React, { useState, Dispatch, SetStateAction } from "react";
 import Modal from "./Modal";
 import { TbBrandCpp, TbBrandPython } from "react-icons/tb";
-import { FaJava, FaFile } from "react-icons/fa";
+import { FaJsSquare, FaFile } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
 
 type File = {
@@ -86,7 +86,7 @@ const FileSection: React.FC<FileSectionProps> = ({
                 {file.runtime === "JS" && (
                   <span className="flex flex-row justify-between">
                     <div className="flex flex-row">
-                      <FaJava className="m-1.5  rounded-md p-[2px]" />
+                      <FaJsSquare className="m-1.5  rounded-md p-[2px]" />
                       {file.filename}
                     </div>
                     <div className="hover:opacity-100 opacity-30 pt-1 pr-2">

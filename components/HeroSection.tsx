@@ -161,12 +161,12 @@ const HeroSection = () => {
                 </span>
               </li>
             </ul>
-            <button
-              type="button"
+            <Link
+              href="/compiler"
               className="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-900 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex justify-center w-full text-center"
             >
-              Continue without Login
-            </button>
+              Continue without an account
+            </Link>
           </div>
 
           <div className="w-full mr-8 max-w-sm p-4 border rounded-lg shadow sm:p-8 bg-gray-800 border-gray-700">
