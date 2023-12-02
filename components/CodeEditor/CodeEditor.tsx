@@ -4,7 +4,7 @@ import { vscodeDark } from "@uiw/codemirror-theme-vscode";
 import { javascript } from "@codemirror/lang-javascript";
 import { cpp } from "@codemirror/lang-cpp";
 import { python } from "@codemirror/lang-python";
-
+import { AiOutlineDownload, AiOutlineShareAlt } from "react-icons/ai";
 import { VscPlay, VscScreenFull, VscClose } from "react-icons/vsc";
 
 interface CodeEditorProps {
@@ -16,8 +16,6 @@ interface CodeEditorProps {
   };
   clearSelectedFile: () => void;
 }
-
-import { AiOutlineDownload, AiOutlineShareAlt } from "react-icons/ai";
 
 const CodeEditor: React.FC<CodeEditorProps> = ({ file, clearSelectedFile }) => {
   return (
@@ -61,6 +59,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ file, clearSelectedFile }) => {
       </div>
       <div className="p-2">
         <ReactCodeMirror
+          key={file.fileId}
           value={file.content}
           theme={vscodeDark}
           extensions={[
