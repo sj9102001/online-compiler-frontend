@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactCodeMirror from "@uiw/react-codemirror";
 import { vscodeDark } from "@uiw/codemirror-theme-vscode";
 import { javascript } from "@codemirror/lang-javascript";
@@ -6,14 +6,31 @@ import { cpp } from "@codemirror/lang-cpp";
 import { python } from "@codemirror/lang-python";
 import { TbBrandCpp, TbBrandPython } from "react-icons/tb";
 import { FaJsSquare } from "react-icons/fa";
-import { VscPlay, VscScreenFull, VscClose } from "react-icons/vsc";
+import {
+  VscPlay,
+  VscScreenFull,
+  VscScreenNormal,
+  VscClose,
+} from "react-icons/vsc";
 
 export default function BasicIde() {
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  const handleFullscreenToggle = () => {
+    setIsFullscreen(!isFullscreen);
+  };
+
   return (
-    <div className=" h-full max-h-[87vh] flex justify-center overflow-auto  ">
+    <div
+      className={` ${
+        isFullscreen
+          ? "absolute z-50 inset-0 h-[99%] w-[99.5%] ml-[3px] mt-[3px] flex "
+          : "h-full rounded-b-lg max-h-[87vh] flex justify-center overflow-auto  "
+      }`}
+    >
       {/* sidebar */}
       <div
-        className="w-20 h-[87vh]  rounded-lg bg-[rgb(31,41,55)] items-center pt-4 flex flex-col space-y-4 text-white border-[1px]
+        className="w-20 min-h-[87vh]  rounded-lg bg-[rgb(31,41,55)] items-center pt-4 flex flex-col space-y-4 text-white border-[1px]
     border-gray-500"
       >
         <a href="">
@@ -26,7 +43,13 @@ export default function BasicIde() {
           <TbBrandCpp className="w-14 h-14 border-gray-400 border-[1px]  hover:bg-[rgb(58,59,59)] rounded-lg p-2 transition" />
         </a>
       </div>
-      <div className="w-[70%]  flex flex-row ">
+      <div
+        className={` ${
+          isFullscreen
+            ? "w-[100%] flex flex-row   "
+            : "w-[70%]  flex flex-row   "
+        }`}
+      >
         {/* program section */}
         <div className=" ml-2 w-[100%] h-full bg-[rgb(31,41,55)] rounded-lg flex flex-col border-b-[1px] border-[1px] border-gray-500">
           {/*program header */}
@@ -47,18 +70,20 @@ export default function BasicIde() {
               <button className="icon-button mr-2">
                 <VscPlay />
               </button>
-              <button className="icon-button">
-                <VscScreenFull />
+              <button onClick={handleFullscreenToggle}>
+                {isFullscreen ? <VscScreenNormal /> : <VscScreenFull />}
               </button>
             </div>
           </div>
           {/* program */}
-          <div className="h-full rounded-b-lg overflow-auto bg-[rgb(29,28,28)]">
+          <div className="h-full rounded-b-lg bg-[rgb(29,28,28)] ">
             <ReactCodeMirror
               value="console.log('hello world')"
               theme={vscodeDark}
               extensions={[javascript()]}
               style={{ fontSize: 14 }}
+              maxHeight="81vh"
+              maxWidth="100vw"
             />
           </div>
         </div>

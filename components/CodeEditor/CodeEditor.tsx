@@ -5,7 +5,7 @@ import { javascript } from "@codemirror/lang-javascript";
 import { cpp } from "@codemirror/lang-cpp";
 import { python } from "@codemirror/lang-python";
 import { AiOutlineDownload, AiOutlineShareAlt } from "react-icons/ai";
-import { VscPlay, VscScreenFull, VscClose } from "react-icons/vsc";
+import { VscPlay, VscClose } from "react-icons/vsc";
 
 interface CodeEditorProps {
   file: {
@@ -51,9 +51,6 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ file, clearSelectedFile }) => {
           </button>
           <button className="icon-button">
             <AiOutlineShareAlt />
-          </button>
-          <button className="icon-button">
-            <VscScreenFull />
           </button>
         </div>
       </div>

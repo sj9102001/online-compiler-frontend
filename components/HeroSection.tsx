@@ -1,8 +1,25 @@
 import Link from "next/link";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { FaArrowDownLong } from "react-icons/fa6";
 
 const HeroSection = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  useEffect(() => {
+    const toggleVisibility = () => {
+      if (window.scrollY === 0) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+      }
+    };
+    window.addEventListener("scroll", toggleVisibility);
+
+    // Cleanup function
+    return () => {
+      window.removeEventListener("scroll", toggleVisibility);
+    };
+  }, []);
+
   return (
     <div>
       <div className="relative isolate px-6 pt-14 lg:px-8">
@@ -33,12 +50,14 @@ const HeroSection = () => {
               </a>
             </div>
           </div>
-          <Link
-            href="#plans"
-            className="w-12 h-12 animate-bounce  text-indigo-500 border-2 border-gray-400 rounded-full flex justify-center items-center  hover:bg-gray-700 transition-all absolute -right-20 -bottom-15 "
-          >
-            <FaArrowDownLong className="h-6 w-6" />
-          </Link>
+          {isVisible && (
+            <Link
+              href="#plans"
+              className="w-12 h-12 animate-bounce  text-indigo-500 border-2 border-gray-400 rounded-full flex justify-center items-center  hover:bg-gray-700 transition-all absolute -right-20 -bottom-15 "
+            >
+              <FaArrowDownLong className="h-6 w-6" />
+            </Link>
+          )}
         </div>
         <div
           className="absolute  inset-x-0 top-[calc(100%-75rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-76rem)]"
