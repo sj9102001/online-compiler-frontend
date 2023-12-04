@@ -14,13 +14,13 @@ const Header = () => {
   }
 
   async function handleLogout() {
-    const logoutResponse = await fetch('http://localhost:8080/user/logout', {
-      credentials: "include"
+    const logoutResponse = await fetch("http://localhost:8080/user/logout", {
+      credentials: "include",
     });
     if (logoutResponse.status === 200) {
-      router.replace('/');
+      router.replace("/");
     } else {
-      showErrorToast('Error logging you out!');
+      showErrorToast("Error logging you out!");
     }
   }
 
@@ -44,7 +44,7 @@ const Header = () => {
           <button
             onClick={toggleSidebar}
             type="button"
-            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
+            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-400"
           >
             <span className="sr-only">Open main menu</span>
             <svg
@@ -74,19 +74,22 @@ const Header = () => {
             Company
           </Link>
         </div>
-        {router.pathname === "/dashboard" ? <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <button onClick={handleLogout} className="btn">
-            Logout
-          </button>
-        </div> : <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <Link href="/auth/login" className="btn">
-            Login
-          </Link>
-        </div>}
+        {router.pathname === "/dashboard" ? (
+          <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+            <button onClick={handleLogout} className="btn">
+              Logout
+            </button>
+          </div>
+        ) : (
+          <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+            <Link href="/auth/login" className="btn">
+              Login
+            </Link>
+          </div>
+        )}
       </nav>
       {showSidebar && (
-        <div
-          className="lg:hidden" role="dialog" aria-modal="true">
+        <div className="lg:hidden" role="dialog" aria-modal="true">
           <div className="fixed inset-0 z-10"></div>
           <div className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-[rgb(17,24,39)] px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
             <div className="flex items-center justify-between">
@@ -101,7 +104,7 @@ const Header = () => {
               <button
                 onClick={toggleSidebar}
                 type="button"
-                className="-m-2.5 rounded-md p-2.5 text-gray-300"
+                className="-m-2.5 rounded-md p-2.5 text-gray-400"
               >
                 <span className="sr-only">Close menu</span>
                 <svg
