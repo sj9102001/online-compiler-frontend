@@ -1,11 +1,12 @@
 import Link from "next/link";
 import React from "react";
+import { FaArrowDownLong } from "react-icons/fa6";
 
 const HeroSection = () => {
   return (
     <div>
       <div className="relative isolate px-6 pt-14 lg:px-8">
-        <div className="mx-auto max-w-2xl ">
+        <div className="mx-auto relative max-w-2xl ">
           <div className="text-center">
             <h1 className="text-4xl font-bold tracking-tigh text-gray-200 sm:text-6xl">
               All in one solution to enhance your online coding experience.
@@ -32,13 +33,20 @@ const HeroSection = () => {
               </a>
             </div>
           </div>
+          <Link
+            href="#plans"
+            className="w-12 h-12 animate-bounce  text-indigo-500 border-2 border-gray-400 rounded-full flex justify-center items-center  hover:bg-gray-700 transition-all absolute -right-20 -bottom-15 "
+          >
+            <FaArrowDownLong className="h-6 w-6" />
+          </Link>
         </div>
         <div
-          className="absolute  inset-x-0 top-[calc(100%-63rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-76rem)]"
+          className="absolute  inset-x-0 top-[calc(100%-75rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-76rem)]"
           aria-hidden="true"
         >
           <div className="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-[#384d5f] to-[#9089fc] opacity-30 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]"></div>
         </div>
+
         <div id="plans" className="flex mt-36 mb-16 ">
           <div className="w-full mr-8 max-w-sm p-4 border rounded-lg shadow sm:p-8 bg-gray-800 border-gray-700">
             <h5 className="mb-4 text-3xl font-bold text-gray-200 ">
