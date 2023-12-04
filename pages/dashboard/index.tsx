@@ -88,7 +88,7 @@ const Dashboard = (props: DashboardProps) => {
     <Split
       className="split h-[calc(100vh-88px)]"
       minSize={0}
-      snapOffset={175}
+      snapOffset={180}
       sizes={[15, 85]}
     >
       <div className="bg-[rgb(29,28,28)] text-[#fff] rounded-tr-lg">
