@@ -101,7 +101,7 @@ const Dashboard = (props: DashboardProps) => {
           user={props.user}
         />
       </div>
-      <div className="bg-[rgb(29,28,28)] rounded-tl-lg overflow-hidden">
+      <div className="bg-[rgb(29,28,28)] rounded-tl-lg sm:min-w-[70%] overflow-hidden">
         {selectedFile === null ? (
           <NotSelected />
         ) : (
