@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { FaArrowDownLong } from "react-icons/fa6";
 
 const HeroSection = () => {
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
   useEffect(() => {
     const toggleVisibility = () => {
       if (window.scrollY === 0) {
