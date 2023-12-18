@@ -20,7 +20,7 @@ export default function BasicIde() {
   const [runtime, setRuntime] = useState<string>("JS");
   const [codeEditorKey, setCodeEditorKey] = useState(0);
   const [value, setValue] = useState("console.log('Hello world!')");
-  const [output, setOutput] = useState("")
+  const [output, setOutput] = useState("");
   const runHandler = async () => {
     try {
       const runResponse = await fetch(`http://localhost:8080/execute/basic`, {
@@ -30,9 +30,9 @@ export default function BasicIde() {
         },
         body: JSON.stringify({
           code: value,
-          runtime: runtime
-        })
-      })
+          runtime: runtime,
+        }),
+      });
       if (runResponse.status === 200) {
         const runData = await runResponse.json();
         setOutput(runData.result);
@@ -42,7 +42,7 @@ export default function BasicIde() {
     } catch (error: any) {
       showErrorToast(error.message);
     }
-  }
+  };
 
   const handleFullscreenToggle = () => {
     setIsFullscreen(!isFullscreen);
@@ -50,46 +50,56 @@ export default function BasicIde() {
 
   return (
     <div
-      className={` ${isFullscreen
-        ? "absolute z-50 inset-0 h-[99%] w-[99.5%] mx-[2px] mt-[3px] flex"
-        : "h-full max-h-[87vh] flex md:justify-center px-2  md:px-0 overflow-auto "
-        }`}
+      className={` ${
+        isFullscreen
+          ? "absolute z-50 inset-0 h-[99%] w-[99.5%] mx-[2px] mt-[3px] flex"
+          : "h-full max-h-[87vh] flex md:justify-center px-2  md:px-0 overflow-auto "
+      }`}
     >
       {/* sidebar */}
       <div
         className="md:w-20 w-14 min-h-[87vh]  rounded-lg bg-[rgb(31,41,55)] items-center pt-4 flex flex-col space-y-4 text-white border-[1px]
     border-gray-500"
       >
-        <button onClick={() => {
-          setRuntime("JS");
-          setValue("console.log('Hello world')");
-          setCodeEditorKey((prevKey) => prevKey + 1);
-        }}>
+        <button
+          onClick={() => {
+            setRuntime("JS");
+            setValue("console.log('Hello world')");
+            setCodeEditorKey((prevKey) => prevKey + 1);
+          }}
+        >
           <FaJsSquare className="md:w-14 w-10 md:h-14 h-10 mt-4 border-gray-400 border-[1px]  hover:bg-[rgb(58,59,59)] rounded-lg p-2 transition" />
         </button>
-        <button onClick={() => {
-          setRuntime("PY");
-          setValue("print('Hello world')");
-          setCodeEditorKey((prevKey) => prevKey + 1);
-        }}>
+        <button
+          onClick={() => {
+            setRuntime("PY");
+            setValue("print('Hello world')");
+            setCodeEditorKey((prevKey) => prevKey + 1);
+          }}
+        >
           <TbBrandPython className="md:w-14 w-10 md:h-14 h-10 border-gray-400 border-[1px]  hover:bg-[rgb(58,59,59)] rounded-lg p-2 transition" />
         </button>
-        <button onClick={() => {
-          setRuntime("CPP");
-          setValue('#include <iostream>\nint main() {\n std::cout << "Hello, World!" << std::endl;\n return 0; \n}');
-          setCodeEditorKey((prevKey) => prevKey + 1);
-        }}>
+        <button
+          onClick={() => {
+            setRuntime("CPP");
+            setValue(
+              '#include <iostream>\nint main() {\n std::cout << "Hello, World!" << std::endl;\n return 0; \n}'
+            );
+            setCodeEditorKey((prevKey) => prevKey + 1);
+          }}
+        >
           <TbBrandCpp className="md:w-14 w-10 md:h-14 h-10 border-gray-400 border-[1px]  hover:bg-[rgb(58,59,59)] rounded-lg p-2 transition" />
         </button>
       </div>
       <div
-        className={` ${isFullscreen
-          ? "w-[100%] flex flex-row rounded-lg ml-1  "
-          : "md:w-[80%] w-[90%] ml-1 rounded-lg flex md:flex-row flex-col  "
-          }`}
+        className={` ${
+          isFullscreen
+            ? "w-[100%] flex flex-row rounded-lg ml-1  "
+            : "md:w-[80%] w-[90%] ml-1 rounded-lg flex md:flex-row flex-col  "
+        }`}
       >
         {/* program section */}
-        <div className=" md:max-w-[70%] md:min-w-[70%] h-[69.3%] md:h-full bg-[rgb(31,41,55)] rounded-lg border-gray-500 border-[1px] flex flex-col pl-[1px] overflow-auto">
+        <div className=" md:max-w-[70%] md:min-w-[70%] h-[100%] md:h-full bg-[rgb(31,41,55)] rounded-lg border-gray-500 border-[1px] flex flex-col overflow-hidden">
           {/*program header */}
           <div className="flex justify-between pt-2 pl-2 text-white">
             <div className="pl-4 pr-2 bg-[rgb(29,28,28)] rounded-t-md relative">
@@ -114,7 +124,7 @@ export default function BasicIde() {
             </div>
           </div>
           {/* program */}
-          <div className="h-full bg-[rgb(29,28,28)] rounded-lg pr-[1px]">
+          <div className="h-full bg-[rgb(29,28,28)] rounded-b-lg px-[1px] overflow-auto">
             <ReactCodeMirror
               key={codeEditorKey}
               value={value}
@@ -123,12 +133,12 @@ export default function BasicIde() {
                 runtime === "JS"
                   ? javascript()
                   : runtime === "PY"
-                    ? python()
-                    : cpp(),
+                  ? python()
+                  : cpp(),
               ]}
               style={{ fontSize: 14 }}
-              maxHeight="81vh"
-              maxWidth="100vw"
+              maxHeight="100%"
+              maxWidth="100%"
               onChange={(newValue) => setValue(newValue)}
               placeholder={"Write your code here."}
             />
@@ -136,10 +146,11 @@ export default function BasicIde() {
         </div>
         {/* output section */}
         <div
-          className={` ${isFullscreen
-            ? "min-w-[30%] h-full bg-[rgb(31,41,55)] rounded-lg flex flex-col border-gray-500 border-[1px] pt-1 ml-1 "
-            : " md:min-w-[30%] max-w-[100%] md:h-full max-h-[30%] md:max-h-[100%] h-[45%] bg-[rgb(31,41,55)] rounded-lg flex flex-col border-gray-500 mt-1 md:mt-0 border-[1px] md:border-[1px]  md:pt-[3px] md:ml-1 overflow-auto"
-            }`}
+          className={` ${
+            isFullscreen
+              ? "min-w-[30%] h-full bg-[rgb(31,41,55)] rounded-lg flex flex-col border-gray-500 border-[1px] pt-1 ml-1 "
+              : " md:min-w-[30%] max-w-[100%] md:h-full max-h-[30%] md:max-h-[100%] h-[45%] bg-[rgb(31,41,55)] rounded-lg flex flex-col border-gray-500 mt-1 md:mt-0 border-[1px] md:border-[1px]  md:pt-[3px] md:ml-1 overflow-hidden"
+          }`}
         >
           {/* output header */}
           <div className=" flex justify-between pt-1 pl-2 text-white">
@@ -157,15 +168,15 @@ export default function BasicIde() {
           </div>
           {/* output */}
 
-          <div className="h-full bg-[rgb(29,28,28)] md:rounded-lg rounded-b-lg ">
+          <div className="h-full overflow-auto bg-[rgb(29,28,28)] md:rounded-lg rounded-b-lg ">
             <ReactCodeMirror
               value={output}
               placeholder={"Press run to see the output."}
               theme={vscodeDark}
-              readOnly={false}
+              readOnly={true}
               extensions={[javascript()]}
               style={{ fontSize: 14 }}
-              maxHeight=""
+              maxHeight="100%"
               maxWidth="100%"
             />
           </div>

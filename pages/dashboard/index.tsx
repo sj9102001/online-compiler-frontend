@@ -88,8 +88,8 @@ const Dashboard = (props: DashboardProps) => {
     <Split
       className="split h-[calc(100vh-88px)]"
       minSize={0}
-      snapOffset={180}
-      sizes={[15, 85]}
+      snapOffset={200}
+      sizes={[45, 55]}
     >
       <div className="bg-[rgb(29,28,28)] text-[#fff] rounded-tr-lg">
         <FileSection
@@ -101,7 +101,7 @@ const Dashboard = (props: DashboardProps) => {
           user={props.user}
         />
       </div>
-      <div className="bg-[rgb(29,28,28)] rounded-tl-lg sm:min-w-[70%] overflow-hidden">
+      <div className="bg-[rgb(29,28,28)] rounded-tl-lg lg:min-w-[80%] sm:min-w-[70%] overflow-hidden">
         {selectedFile === null ? (
           <NotSelected />
         ) : (
