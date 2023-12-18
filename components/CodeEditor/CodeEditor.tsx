@@ -28,9 +28,9 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ file, clearSelectedFile }) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          fileId: file.fileId
-        })
-      })
+          fileId: file.fileId,
+        }),
+      });
       if (runResponse.status === 200) {
         const runData = await runResponse.json();
         setOutput(runData.result);
@@ -40,18 +40,21 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ file, clearSelectedFile }) => {
     } catch (error: any) {
       showErrorToast(error.message);
     }
-  }
+  };
   const saveHandler = async () => {
     try {
-      const saveResponse = await fetch(`http://localhost:8080/file/code/${file.fileId}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          content: file.content
-        })
-      })
+      const saveResponse = await fetch(
+        `http://localhost:8080/file/code/${file.fileId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            content: file.content,
+          }),
+        }
+      );
       if (saveResponse.status === 200) {
         showSuccessToast("Successfully Saved Code");
       } else {
@@ -60,10 +63,10 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ file, clearSelectedFile }) => {
     } catch (error: any) {
       showErrorToast(error.message);
     }
-  }
+  };
   return (
-    <div className="w-full overflow-auto h-full  text-white flex flex-col md:flex-row justify-between ">
-      <div className="w-full h-full overflow-auto">
+    <div className="w-full h-full  text-white flex flex-col md:flex-row justify-between ">
+      <div className="w-full h-full overflow-clip ">
         <div className="flex flex-row rounded-tl-lg justify-between px-2 pt-2 max-h-11 bg-[rgb(31,41,55)] mb-1">
           <div className="flex">
             <div className="pl-4 pr-2 bg-[rgb(29,28,28)] rounded-t-md relative">
@@ -71,7 +74,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ file, clearSelectedFile }) => {
               <div className="absolute bg-transparent bottom-0 -right-6 h-2 w-[24px] rounded-bl-full  shadow-[-5px_2px_0px_2px_rgba(29,28,28,1)]"></div>
               <div className="absolute bg-transparent bottom-0 -left-6 h-2 w-[24px] rounded-br-full  shadow-[7px_0px_0px_0px_rgba(29,28,28,1)]"></div>
 
-              <div className="flex flex-row justify-between gap-10">
+              <div className="flex flex-row justify-between sm:gap-10 gap-1">
                 <h3>{file.filename}</h3>
                 <button
                   onClick={clearSelectedFile}
@@ -86,7 +89,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ file, clearSelectedFile }) => {
                                  <button className="hover:bg-[rgb(58,59,59)] px-[0px] my-1 rounded-sm transition"><VscClose/></button>
                             </div> */}
           </div>
-          <div className="space-x-1">
+          <div className="sm:space-x-1 flex">
             <button className="icon-button" onClick={runHandler}>
               <VscPlay />
             </button>
@@ -101,8 +104,11 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ file, clearSelectedFile }) => {
             </button>
           </div>
         </div>
-        <div className="p-1">
+        <div className="p-1 h-full overflow-auto">
           <ReactCodeMirror
+            className="h-[93%] overflow-auto"
+            maxHeight="100%"
+            maxWidth="100%"
             key={file.fileId}
             value={file.content}
             theme={vscodeDark}
@@ -110,39 +116,41 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ file, clearSelectedFile }) => {
               file.runtime === "JS"
                 ? javascript()
                 : file.runtime === "PY"
-                  ? python()
-                  : cpp(),
+                ? python()
+                : cpp(),
             ]}
             style={{ fontSize: 14 }}
-            onChange={(value) => { file.content = value }}
+            onChange={(value) => {
+              file.content = value;
+            }}
           />
         </div>
       </div>
       {/* output section */}
-      <div className=" md:w-[35%] md:h-full h-[70%] bg-[rgb(31,41,55)] flex flex-col border-gray-600 mt-1 md:mt-0 border-t-[1px] md:border-t-0 md:border-l-[1px]  md:pt-[3px] overflow-auto">
+      <div className=" md:w-[35%] md:h-full h-[70%] bg-[rgb(31,41,55)] flex flex-col border-gray-600 mt-1 md:mt-0 border-t-[1px] md:border-t-0 md:border-l-[1px]  md:pt-[3px] overflow-hidden">
         {/* output header */}
         <div className="flex justify-between pt-1 pl-2 text-white">
           <div className="flex flex-row justify-between gap-10">
             <h3>OUTPUT</h3>
           </div>
-          <div className="mr-1">
-            <button className="icon-button mr-1" onClick={() => setOutput("")}>
+          <div className="mr-1 flex sm:space-x-1">
+            <button className="icon-button" onClick={() => setOutput("")}>
               <VscClearAll />
             </button>
-            <button className="icon-button">
+            {/* <button className="icon-button">
               <VscClose />
-            </button>
+            </button> */}
           </div>
         </div>
         {/* output */}
 
-        <div className="h-full bg-[rgb(29,28,28)] ">
+        <div className="h-full overflow-auto md:pt-1 bg-[rgb(29,28,28)] ">
           <ReactCodeMirror
             className="p-1"
             value={output}
             placeholder={"Press run to see the output."}
             theme={vscodeDark}
-            readOnly={true}
+            readOnly={false}
             extensions={[javascript()]}
             style={{ fontSize: 14 }}
             maxHeight=""

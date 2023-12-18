@@ -67,7 +67,7 @@ const FileSection: React.FC<FileSectionProps> = ({
           {files.map((file, index) => (
             <div key={index} onClick={() => selectFile(file.fileId)}>
               <li
-                className="bg-gray-700 mb-1  mr-2 rounded-md hover:bg-gray-500 transition"
+                className="bg-gray-700 mb-1  mr-2 rounded-md hover:bg-gray-500 transition overflow-hidden"
                 key={file.fileId}
               >
                 {file.runtime === "CPP" && (
